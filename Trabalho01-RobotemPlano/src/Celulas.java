@@ -8,6 +8,7 @@ public class Celulas {
 	public ArrayList<RobosAbstract> robos;
 	public boolean temAluno;
 	public boolean temBug;
+	public boolean roboVisitou;
 	
 	public Celulas(int id, int x, int y) {
 		robos = new ArrayList<RobosAbstract>();
@@ -16,22 +17,53 @@ public class Celulas {
 		this.id = id;
 		temAluno = false;
 		temBug = false;
+		roboVisitou = false;
 	}
 
+	public String imprimir() {
+		if(roboVisitou) {
+			if(temAluno) 
+				return "!";
+			
+			if(temBug) 
+				return "#";
+		}
+		
+		return "*";
+	}
 	
 	public RobosAbstract getRobo() {
-		return robos.get(0);
-		//return robos.get(robos.size()-1); //retorna o ultimo robo que entrou na celula
+		//return robos.get(0);
+		return robos.get(robos.size()-1); //retorna o ultimo robo que entrou na celula
 	}
 	
 	public void addRobo(RobosAbstract robo) {
 		robos.add(robo);
-		//System.out.println(robos.size());
+		roboVisitou = true;
+	}
+	
+	public void addAluno() {
+		temAluno = true;
+		temBug = false;
+		// fazendo isso para asegurar que não vai ter aluno e bug na mesma celula
+	}
+	
+	public void addBug() {
+		temBug = true;
+		temAluno = false;
+		// fazendo isso para asegurar que não vai ter aluno e bug na mesma celula
+	}
+	
+	public void removerAluno() {
+		temAluno = false;
+	}
+	
+	public void removerBug() {
+		temBug = false;
 	}
 	
 	public boolean temRobo() {
 		return (!robos.isEmpty());
-		//return (!robos.isEmpty());
 	}
 	
 	public void removerRobo(RobosAbstract robo) {
@@ -43,27 +75,16 @@ public class Celulas {
 		return temAluno;
 	}
 
-	public void temAluno(boolean temAluno) {
-		this.temAluno = temAluno;
-	}
-
 	public boolean temBug() {
 		return temBug;
-	}
-
-	public void temBug(boolean temBug) {
-		this.temBug = temBug;
 	}
 
 	public int getX() {
 		return x;
 	}
 
-
 	public int getY() {
 		return y;
 	}
-	
-	
 	
 }

@@ -17,7 +17,7 @@ public class RoboAndador extends RobosAbstract implements RobosInterface {
 		
 	}
 	
-	public void voltar(int qtd) {
+	public void retroceder(int qtd) {
 		int coordTemp[] = this.movimentarRobo(coord, 0, (-1)*qtd);
 		coord[0] = coordTemp[0];
 		coord[1] = coordTemp[1];
@@ -25,10 +25,6 @@ public class RoboAndador extends RobosAbstract implements RobosInterface {
 			this.checarAlunoOuBug(coord);
 			System.out.println("robo se moveu");
 		}
-	}
-
-	public int[] getCoord() {
-		return coord;
 	}
 	
 }

@@ -23,9 +23,9 @@ public abstract class RobosAbstract {
 		coordFinal[0]=coordInicial[0] + incrementoEmX;
 		coordFinal[1]=coordInicial[1] + incrementoEmY;
 		if(plano.coordExiste(coordFinal)) {
-			plano.moverRobo(coordInicial, coordFinal, this);
-			return coordFinal; 
-			//se a nova coordenada existir, o robo vai ocupa ela e o metodo retorna a nova coordenada do robo
+			plano.moverRobo(coordInicial, coordFinal, this); //(1)
+			return coordFinal; //(2)
+			//se a nova coordenada existir, (1) o robo vai ocupar ela e o (2) metodo retorna a nova coordenada do robo
 		}
 		
 		return coordInicial;

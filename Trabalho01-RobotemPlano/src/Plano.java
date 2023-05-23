@@ -18,15 +18,12 @@ public class Plano {
 			}
 		}
 		
-		
+		celulas.get(0).addBug();
+		celulas.get(35).addBug();
+		celulas.get(36).addBug();
+		celulas.get(37).addBug();
 		
 //		Random gerarNums = new Random();
-//		for(int i=0; tamanho*tamanho<i; i++) { //-> para gerar os bugs e alunos
-//			celula.get(gerarNums.nextInt(tamanho)).setBug(true);
-//		}
-		
-		//roboAndador = new RoboAndador("Robo Andador", this, celula.get(0));
-		
 		
 	} // fim construtor
 
@@ -69,13 +66,16 @@ public class Plano {
 			if(celula.getX() == coordFinal[0] && celula.getY() == coordFinal[1]) 
 				celula.addRobo(robo);
 		}
+		
+		
+		
 	}
 
 	public boolean celulaTemAluno(int coord[]) {
 		for (Celulas celula : celulas)
 			if(celula.getX() == coord[0] && celula.getY() == coord[1]) 
 				if(celula.temAluno()) {
-					celula.temAluno(false);
+					celula.removerAluno();
 					return true;
 				}
 		return false;
@@ -85,7 +85,7 @@ public class Plano {
 		for (Celulas celula : celulas)
 			if(celula.getX() == coord[0] && celula.getY() == coord[1]) 
 				if(celula.temBug()) {
-					celula.temBug(false);
+					celula.removerBug();
 					return true;
 				}
 		return false;
@@ -98,7 +98,7 @@ public class Plano {
 			if(celulaTemp.temRobo()) {
 				System.out.print(celulaTemp.getRobo().apelidoNoPlano+" ");
 			} else {
-				System.out.print("* ");
+				System.out.print(celulaTemp.imprimir()+" ");
 			}
 				
 			if(i%tamanho==0)
