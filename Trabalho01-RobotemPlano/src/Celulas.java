@@ -5,10 +5,10 @@ public class Celulas {
 	private int x;
 	private int y;
 	private int id;
-	public ArrayList<RobosAbstract> robos;
-	public boolean temAluno;
-	public boolean temBug;
-	public boolean roboVisitou;
+	private ArrayList<RobosAbstract> robos;
+	private boolean temAluno;
+	private boolean temBug;
+	private boolean roboVisitou;
 	
 	public Celulas(int id, int x, int y) {
 		robos = new ArrayList<RobosAbstract>();
@@ -22,14 +22,15 @@ public class Celulas {
 
 	public String imprimir() {
 		if(roboVisitou) {
-			if(temAluno) 
-				return "!";
-			
-			if(temBug) 
-				return "#";
+			if(temAluno) {
+				return "!"; //robo visitou e tem um ALUNO
+			}else if(temBug) {
+				return "&"; //robo visitou e tem um BUG
+			}else {
+				return "@"; //robo visitou
+			}
 		}
-		
-		return "*";
+			return "*"; //caso o robo nao tenha visitado a celula
 	}
 	
 	public RobosAbstract getRobo() {
@@ -39,6 +40,15 @@ public class Celulas {
 	
 	public void addRobo(RobosAbstract robo) {
 		robos.add(robo);
+		//roboVisitou = true;
+		//System.out.println("Robo '"+ robo.apelidoNoPlano +"' adicionado");
+	}
+	
+	public boolean roboVisitou() {
+		return roboVisitou;
+	}
+	
+	public void setTrueRoboVisitou() {
 		roboVisitou = true;
 	}
 	
@@ -54,13 +64,13 @@ public class Celulas {
 		// fazendo isso para asegurar que não vai ter aluno e bug na mesma celula
 	}
 	
-	public void removerAluno() {
-		temAluno = false;
-	}
-	
-	public void removerBug() {
-		temBug = false;
-	}
+//	public void removerAluno() {
+//		temAluno = false;
+//	}
+//	
+//	public void removerBug() {
+//		temBug = false;
+//	}
 	
 	public boolean temRobo() {
 		return (!robos.isEmpty());
@@ -69,7 +79,6 @@ public class Celulas {
 	public void removerRobo(RobosAbstract robo) {
 		robos.remove(robo);
 	}
-	
 	
 	public boolean temAluno() {
 		return temAluno;

@@ -18,27 +18,39 @@ public class Plano {
 			}
 		}
 		
-		celulas.get(0).addBug();
-		celulas.get(35).addBug();
-		celulas.get(36).addBug();
-		celulas.get(37).addBug();
+		Random numAleatorio = new Random();
+		ArrayList<Integer> listaNumAleatorios = new ArrayList<>();
+		int qtdBugs=8;
+		int qtdAlunos=8;
+		int num;
+		for(; listaNumAleatorios.size()<(qtdBugs+qtdAlunos); ) {
+			do {
+				num = numAleatorio.nextInt(tamanho*tamanho);
+			} while(listaNumAleatorios.contains(num) || num==0);
+			listaNumAleatorios.add(num);
+		}
 		
-//		Random gerarNums = new Random();
+//		for (Integer integer : listaNumAleatorios) {
+//			System.out.print(integer+", ");
+//		}
+		
+		int countBug=0;
+		int countAluno = 0;
+		for(int i=0; i<listaNumAleatorios.size(); i++) {
+			if(i<qtdBugs) {
+				countBug++;
+				//System.out.println("bug: "+listaNumAleatorios.get(i));
+				celulas.get(listaNumAleatorios.get(i)).addBug();
+			} else {
+				countAluno++;
+				celulas.get(listaNumAleatorios.get(i)).addAluno();
+			}
+		}
+		
+		
+		//System.out.println("\nqtd Bugs: "+ countBug +"   qtd Alunos: "+countAluno);
 		
 	} // fim construtor
-
-//	public Celulas procurarCelula(int coord[]) {
-//		if(coord[0]>tamanho || coord[0]<0) 
-//			coord[0]=tamanho;
-//		
-//		if(coord[1]>tamanho || coord[1]<0)
-//			coord[1]=tamanho;
-//			
-//		for (Celulas celulas : this.celula) 
-//			if(celulas.getX() == coord[0] && celulas.getY() == coord[1]) 
-//				return celulas;
-//		return null;
-//	}
 	
 	public void inicializarRobo(int x, int y, RobosAbstract robo) {
 		int coord[] = new int[2];
@@ -74,20 +86,16 @@ public class Plano {
 	public boolean celulaTemAluno(int coord[]) {
 		for (Celulas celula : celulas)
 			if(celula.getX() == coord[0] && celula.getY() == coord[1]) 
-				if(celula.temAluno()) {
-					celula.removerAluno();
+				if(celula.temAluno() && !celula.roboVisitou()) 
 					return true;
-				}
 		return false;
 	}
 	
 	public boolean celulaTemBug(int coord[]) {
-		for (Celulas celula : celulas)
-			if(celula.getX() == coord[0] && celula.getY() == coord[1]) 
-				if(celula.temBug()) {
-					celula.removerBug();
+		for (Celulas celula : celulas) 
+			if(celula.getX() == coord[0] && celula.getY() == coord[1])
+				if(celula.temBug() && !celula.roboVisitou())
 					return true;
-				}
 		return false;
 	}
 	
@@ -106,5 +114,11 @@ public class Plano {
 		}
 	}
 	
+	public void roboVisitouCelula(int coord[]) {
+		for (Celulas celula : celulas)
+			if(celula.getX() == coord[0] && celula.getY() == coord[1]) {
+				celula.setTrueRoboVisitou();
+			}
+	}
 	
 }

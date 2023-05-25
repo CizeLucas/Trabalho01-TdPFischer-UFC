@@ -9,23 +9,24 @@ public class RoboPeao extends RobosAbstract{
 	
 	public void avancar() {
 		int coordTemp[] = this.movimentarRobo(coord, 1, 0);
+		if(!coord.equals(coordTemp)) {
+			this.checarAlunoOuBugNaCelula(coord);
+			
+			//System.out.println("robo se moveu");
+		}
 		coord[0] = coordTemp[0];
 		coord[1] = coordTemp[1];
-		if(!coord.equals(coordTemp)) {
-			this.checarAlunoOuBug(coord);
-			System.out.println("robo se moveu");
-		}
 		
 	}
 
 	public void retroceder() {
 		int coordTemp[] = this.movimentarRobo(coord, -1, 0);
+		if(!coord.equals(coordTemp)) {
+			this.checarAlunoOuBugNaCelula(coord);
+			//System.out.println("robo se moveu");
+		}
 		coord[0] = coordTemp[0];
 		coord[1] = coordTemp[1];
-		if(!coord.equals(coordTemp)) {
-			this.checarAlunoOuBug(coord);
-			System.out.println("robo se moveu");
-		}
 	}
 
 }

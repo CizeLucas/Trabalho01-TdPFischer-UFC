@@ -32,12 +32,14 @@ public abstract class RobosAbstract {
 		//se a nova coordenada nao existir, o metodo apenas retorna a coordenada atual dele
 	}
 	
-	public void checarAlunoOuBug(int coord[]) {
+	public void checarAlunoOuBugNaCelula(int coord[]) {
 		if(plano.celulaTemAluno(coord))
 			this.atualizarPontuacao(10, true);
 		
 		if(plano.celulaTemBug(coord))
 			this.atualizarPontuacao(15, false);
+		
+		plano.roboVisitouCelula(coord);
 	}
 	
 	
@@ -54,6 +56,10 @@ public abstract class RobosAbstract {
 
 	public int getPontuacao() {
 		return pontuacao;
+	}
+	
+	public String stringPontuacao() {
+		return "O Robo "+nome+" ("+apelidoNoPlano+") tem "+pontuacao+" pontos.";
 	}
 
 	public String getNome() {
