@@ -34,7 +34,6 @@ public class Celulas {
 	}
 	
 	public RobosAbstract getRobo() {
-		//return robos.get(0);
 		return robos.get(robos.size()-1); //retorna o ultimo robo que entrou na celula
 	}
 	
@@ -44,12 +43,8 @@ public class Celulas {
 		//System.out.println("Robo '"+ robo.apelidoNoPlano +"' adicionado");
 	}
 	
-	public boolean roboVisitou() {
-		return roboVisitou;
-	}
-	
-	public void setTrueRoboVisitou() {
-		roboVisitou = true;
+	public void removerRobo(RobosAbstract robo) {
+		robos.remove(robo);
 	}
 	
 	public void addAluno() {
@@ -64,20 +59,8 @@ public class Celulas {
 		// fazendo isso para asegurar que não vai ter aluno e bug na mesma celula
 	}
 	
-//	public void removerAluno() {
-//		temAluno = false;
-//	}
-//	
-//	public void removerBug() {
-//		temBug = false;
-//	}
-	
 	public boolean temRobo() {
 		return (!robos.isEmpty());
-	}
-	
-	public void removerRobo(RobosAbstract robo) {
-		robos.remove(robo);
 	}
 	
 	public boolean temAluno() {
@@ -88,12 +71,19 @@ public class Celulas {
 		return temBug;
 	}
 
-	public int getX() {
-		return x;
+	public boolean roboVisitou() {
+		return roboVisitou;
 	}
-
-	public int getY() {
-		return y;
+	
+	public void setRoboVisitou(boolean estado) {
+		roboVisitou = estado;
+	}
+	
+	public int[] getCoords() {
+		int[] coords = new int[2];
+		coords[0]=x;
+		coords[1]=y;
+		return coords;
 	}
 	
 }

@@ -52,16 +52,24 @@ public class Plano {
 		
 	} // fim construtor
 	
+	private Celulas encontrarCelula(int[] coord) {
+		//if(this.coordExiste(coord))
+			for (Celulas celula : this.celulas)
+				if(celula.getCoords()[0] == coord[0] && celula.getCoords()[1] == coord[1]) 
+					return celula;
+		return null;
+	}
+	
 	public void inicializarRobo(int x, int y, RobosAbstract robo) {
 		int coord[] = new int[2];
 		coord[0]=x;
 		coord[1]=y;
-		if(this.coordExiste(coord)) {
-			for (Celulas celula : this.celulas) 
-				if(celula.getX() == coord[0] && celula.getY() == coord[1]) {
-					celula.addRobo(robo);
-				}	
-		}
+		if(this.coordExiste(coord))
+			this.encontrarCelula(coord).addRobo(robo);
+//			for (Celulas celula : this.celulas) 
+//				if(celula.getCoords()[0] == coord[0] && celula.getCoords()[1] == coord[1]) {
+//					celula.addRobo(robo);
+//				}	
 	}
 	
 	public boolean coordExiste(int coord[]) {
@@ -70,22 +78,39 @@ public class Plano {
 		return false;
 	}
 	
+	public int[] retornarCoordValida(int coord[]) {
+		for(int i=0; i<2; i++) {
+			if(coord[i]>=0) {
+				while(!(coord[i]<tamanho)) {
+					coord[i]--;
+				}
+			} else {
+				while(!(coord[i]>=0)) {
+					coord[i]++;
+				}	
+			}
+		} //fim loop for
+		return coord;
+	}
+	
 	public void moverRobo(int coordInicial[], int coordFinal[], RobosAbstract robo) {
-		for (Celulas celula : celulas) {
-			if(celula.getX() == coordInicial[0] && celula.getY() == coordInicial[1]) 
-				celula.removerRobo(robo);
-			
-			if(celula.getX() == coordFinal[0] && celula.getY() == coordFinal[1]) 
-				celula.addRobo(robo);
-		}
+		this.encontrarCelula(coordInicial).removerRobo(robo);
+		this.encontrarCelula(coordFinal).addRobo(robo);
+		//metodo remove o robo da coordInicial e adiciona-o em coordFinal do movimento
 		
-		
+//		for (Celulas celula : celulas) {
+//			if(celula.getCoords()[0] == coordInicial[0] && celula.getCoords()[1] == coordInicial[1]) 
+//				celula.removerRobo(robo);
+//			
+//			if(celula.getCoords()[0] == coordFinal[0] && celula.getCoords()[1] == coordFinal[1]) 
+//				celula.addRobo(robo);
+//		}
 		
 	}
 
 	public boolean celulaTemAluno(int coord[]) {
 		for (Celulas celula : celulas)
-			if(celula.getX() == coord[0] && celula.getY() == coord[1]) 
+			if(celula.getCoords()[0] == coord[0] && celula.getCoords()[1] == coord[1]) 
 				if(celula.temAluno() && !celula.roboVisitou()) 
 					return true;
 		return false;
@@ -93,7 +118,7 @@ public class Plano {
 	
 	public boolean celulaTemBug(int coord[]) {
 		for (Celulas celula : celulas) 
-			if(celula.getX() == coord[0] && celula.getY() == coord[1])
+			if(celula.getCoords()[0] == coord[0] && celula.getCoords()[1] == coord[1])
 				if(celula.temBug() && !celula.roboVisitou())
 					return true;
 		return false;
@@ -116,8 +141,8 @@ public class Plano {
 	
 	public void roboVisitouCelula(int coord[]) {
 		for (Celulas celula : celulas)
-			if(celula.getX() == coord[0] && celula.getY() == coord[1]) {
-				celula.setTrueRoboVisitou();
+			if(celula.getCoords()[0] == coord[0] && celula.getCoords()[1] == coord[1]) {
+				celula.setRoboVisitou(true);
 			}
 	}
 	

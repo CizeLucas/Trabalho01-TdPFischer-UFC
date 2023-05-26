@@ -3,22 +3,36 @@ public abstract class RobosAbstract {
 	
 	public int id;
 	public String nome;
-	public int coord[];
+	public int coordRobo[];
 	public char apelidoNoPlano;
 	public int pontuacao;
 	public Plano plano;
 	
-	public RobosAbstract(int id, String nome, Plano plano, int posXInicial, int posYInicial) {
+	public RobosAbstract(int id, String nome, char apelidoNoPlano, Plano plano, int posXInicial, int posYInicial) {
+		this.id = id;
 		this.nome = nome;
+		this.apelidoNoPlano = apelidoNoPlano;
 		this.plano = plano;
-		coord = new int[2];
-		coord[0] = posXInicial;
-		coord[1] = posYInicial;
+		coordRobo = new int[2];
+		coordRobo[0] = posXInicial;
+		coordRobo[1] = posYInicial;
 		pontuacao = 0;
 		plano.inicializarRobo(posXInicial, posYInicial, this);
 	}
 	
 	public int[] movimentarRobo(int coordInicial[], int incrementoEmX, int incrementoEmY) {
+		int coordFinal[] = new int[2];
+		coordFinal[0]=coordInicial[0] + incrementoEmX;
+		coordFinal[1]=coordInicial[1] + incrementoEmY;
+		coordFinal = plano.retornarCoordValida(coordFinal);
+		//a atribuicao acima assegura que a coordenada inserida esta sempre nos limites do plano,
+		//e caso nao esteja, corrige a coordenada para o maximo ou minimo valor possivel.
+			plano.moverRobo(coordInicial, coordFinal, this);
+			return coordFinal;
+	}
+	
+	/* >>>> VERSAO ANTIGA DO METODO MOVIMENTARROBO <<<<
+		public int[] movimentarRobo(int coordInicial[], int incrementoEmX, int incrementoEmY) {
 		int coordFinal[] = new int[2];
 		coordFinal[0]=coordInicial[0] + incrementoEmX;
 		coordFinal[1]=coordInicial[1] + incrementoEmY;
@@ -31,6 +45,7 @@ public abstract class RobosAbstract {
 		return coordInicial;
 		//se a nova coordenada nao existir, o metodo apenas retorna a coordenada atual dele
 	}
+	  */
 	
 	public void checarAlunoOuBugNaCelula(int coord[]) {
 		if(plano.celulaTemAluno(coord))
@@ -43,7 +58,7 @@ public abstract class RobosAbstract {
 	}
 	
 	
-	public void atualizarPontuacao(int qtd, boolean ganhou) {
+	private void atualizarPontuacao(int qtd, boolean ganhou) {
 		if(ganhou)
 			pontuacao+=qtd;
 		else
@@ -51,7 +66,7 @@ public abstract class RobosAbstract {
 	}
 	
 	public int[] getCoord() {
-		return coord;
+		return coordRobo;
 	}
 
 	public int getPontuacao() {
