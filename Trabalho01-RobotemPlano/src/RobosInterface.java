@@ -1,12 +1,7 @@
-
 public interface RobosInterface {
 
-	public void avancar(int qtd);
-	
-	public void retroceder(int qtd);
-	
-//	public int[] avancar(int qtd);
-//	
-//	public int[] voltar(int qtd);
+	public int avancar(int qtd);
+	public int retroceder(int qtd);
+	public String interfaceUsuario(boolean selecMovimento, int qtd);	
 	
 }

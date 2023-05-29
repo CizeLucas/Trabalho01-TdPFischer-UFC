@@ -39,8 +39,6 @@ public class Celulas {
 	
 	public void addRobo(RobosAbstract robo) {
 		robos.add(robo);
-		//roboVisitou = true;
-		//System.out.println("Robo '"+ robo.apelidoNoPlano +"' adicionado");
 	}
 	
 	public void removerRobo(RobosAbstract robo) {
@@ -79,10 +77,12 @@ public class Celulas {
 		roboVisitou = estado;
 	}
 	
+	public void setTrueRoboVisitou() {
+		roboVisitou=true;
+	}
+	
 	public int[] getCoords() {
-		int[] coords = new int[2];
-		coords[0]=x;
-		coords[1]=y;
+		int[] coords = {x,y};
 		return coords;
 	}
 	

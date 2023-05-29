@@ -1,15 +1,19 @@
+import java.util.ArrayList;
 
-public abstract class RobosAbstract {
+public abstract class RobosAbstract implements RobosInterface{
 	
-	public int id;
-	public String nome;
-	public int coordRobo[];
-	public char apelidoNoPlano;
-	public int pontuacao;
-	public Plano plano;
+	private String nome;
+	protected int coordRobo[];
+	private char apelidoNoPlano;
+	private int pontuacao;
+	private Plano plano;
+	protected String formaDeMovimento;
+	protected String qtdMaxDeCasasPorMov;
+	private int qtdAlunosColetados;
+	private int qtdBugsColetados;
+	private ArrayList<String> listaDeCoordenadas;
 	
-	public RobosAbstract(int id, String nome, char apelidoNoPlano, Plano plano, int posXInicial, int posYInicial) {
-		this.id = id;
+	public RobosAbstract(String nome, char apelidoNoPlano, Plano plano, int posXInicial, int posYInicial) {
 		this.nome = nome;
 		this.apelidoNoPlano = apelidoNoPlano;
 		this.plano = plano;
@@ -17,46 +21,76 @@ public abstract class RobosAbstract {
 		coordRobo[0] = posXInicial;
 		coordRobo[1] = posYInicial;
 		pontuacao = 0;
-		plano.inicializarRobo(posXInicial, posYInicial, this);
+		qtdAlunosColetados=0;
+		qtdBugsColetados=0;
+		plano.inicializarRobo(coordRobo, this);
+		listaDeCoordenadas = new ArrayList<String>();
 	}
 	
-	public int[] movimentarRobo(int coordInicial[], int incrementoEmX, int incrementoEmY) {
+	protected String descreverMovRobo() {
+		return ("O "+this.toString()+" move-se na(s) "+this.formaDeMovimento+" em ate "+this.qtdMaxDeCasasPorMov+" casa(s).");
+	}
+	
+	public String toString() {
+		return "Robo "+nome+" ("+apelidoNoPlano+")";
+	}
+	
+	protected int[] movimentarRobo(int coordInicial[], int incrementoEmX, int incrementoEmY) {
 		int coordFinal[] = new int[2];
 		coordFinal[0]=coordInicial[0] + incrementoEmX;
 		coordFinal[1]=coordInicial[1] + incrementoEmY;
 		coordFinal = plano.retornarCoordValida(coordFinal);
 		//a atribuicao acima assegura que a coordenada inserida esta sempre nos limites do plano,
 		//e caso nao esteja, corrige a coordenada para o maximo ou minimo valor possivel.
+		
+		if(coordInicial[0] == coordFinal[0] && coordInicial[1] == coordFinal[1]) { 
+			return coordInicial;
+		} else {
 			plano.moverRobo(coordInicial, coordFinal, this);
+			this.checarAlunoOuBugNaCelula(coordFinal);
+			this.atualizarListaDeCoordenadas(coordFinal);
 			return coordFinal;
+		}
+		//O if acima checa se houve mudanca nas coordenadas do robo (se houve movimento)
+		// Caso haja movimento, o robo eh movido no plano, sua pontuacao eh aferida e retorna sua coordenada atual
+		// Caso NAO haja movimento, apenas a coordenada incial eh retornada
 	}
 	
-	/* >>>> VERSAO ANTIGA DO METODO MOVIMENTARROBO <<<<
-		public int[] movimentarRobo(int coordInicial[], int incrementoEmX, int incrementoEmY) {
-		int coordFinal[] = new int[2];
-		coordFinal[0]=coordInicial[0] + incrementoEmX;
-		coordFinal[1]=coordInicial[1] + incrementoEmY;
-		if(plano.coordExiste(coordFinal)) {
-			plano.moverRobo(coordInicial, coordFinal, this); //(1)
-			return coordFinal; //(2)
-			//se a nova coordenada existir, (1) o robo vai ocupar ela e o (2) metodo retorna a nova coordenada do robo
+	protected void atualizarListaDeCoordenadas(int[] coord) {
+		listaDeCoordenadas.add(String.format("["+coord[0]+", "+coord[1]+"], "));
+	}
+	
+	protected ArrayList<String> getListaDeCoordenadas() {
+		return listaDeCoordenadas;
+	}
+	
+	protected void finalizarMovimentos() {
+		plano.roboVisitouCelula(coordRobo);
+	}
+	
+	private void checarAlunoOuBugNaCelula(int coord[]) {
+		if(plano.celulaTemAluno(coord)) {
+			this.atualizarPontuacao(10, true);
+			qtdAlunosColetados++;
 		}
 		
-		return coordInicial;
-		//se a nova coordenada nao existir, o metodo apenas retorna a coordenada atual dele
-	}
-	  */
-	
-	public void checarAlunoOuBugNaCelula(int coord[]) {
-		if(plano.celulaTemAluno(coord))
-			this.atualizarPontuacao(10, true);
-		
-		if(plano.celulaTemBug(coord))
+		if(plano.celulaTemBug(coord)) {
 			this.atualizarPontuacao(15, false);
-		
-		plano.roboVisitouCelula(coord);
+			qtdBugsColetados++;
+		}
 	}
 	
+	public String interfaceUsuario(boolean selecMovimento, int qtd) {
+		if(selecMovimento) {
+			return ("O "+this.toString()+" vai avancar "+avancar(qtd)+" casa(s).\n");
+		} else {
+			return ("O "+this.toString()+" vai retroceder "+retroceder(qtd)+" casa(s).\n");
+		}
+	}
+	
+	protected char getApelidoNoPlano() {
+		return apelidoNoPlano;
+	}
 	
 	private void atualizarPontuacao(int qtd, boolean ganhou) {
 		if(ganhou)
@@ -65,21 +99,28 @@ public abstract class RobosAbstract {
 			pontuacao-=qtd;
 	}
 	
-	public int[] getCoord() {
+	protected int[] getCoord() {
 		return coordRobo;
 	}
 
-	public int getPontuacao() {
+	protected int getPontuacao() {
 		return pontuacao;
 	}
 	
-	public String stringPontuacao() {
+	protected String stringPontuacao() {
 		return "O Robo "+nome+" ("+apelidoNoPlano+") tem "+pontuacao+" pontos.";
 	}
 
-	public String getNome() {
+	protected String getNome() {
 		return nome;
 	}
 	
+	protected int getQtdAlunosColetados() {
+		return qtdAlunosColetados;
+	}
+	
+	protected int getQtdBugsColetados() {
+		return qtdBugsColetados;
+	}
 	
 }
