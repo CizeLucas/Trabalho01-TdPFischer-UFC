@@ -79,7 +79,7 @@ public class IteracoesJogo {
 		System.out.println(this.roboComMaiorPontuacao());
 	}
 	
-	public int scanDeInteiros() { 
+	private int scanDeInteiros() { 
 		//metodo para leitura de inteiros protegida com try-catch chamando a funcao recursivamente
 		int numInt;
 		try {

@@ -25,15 +25,18 @@ public abstract class RobosAbstract implements RobosInterface{
 		qtdBugsColetados=0;
 		plano.inicializarRobo(coordRobo, this);
 		listaDeCoordenadas = new ArrayList<String>();
-	}
+	} //fim construtor
+	
 	
 	protected String descreverMovRobo() {
 		return ("O "+this.toString()+" move-se na(s) "+this.formaDeMovimento+" em ate "+this.qtdMaxDeCasasPorMov+" casa(s).");
 	}
 	
+	
 	public String toString() {
 		return "Robo "+nome+" ("+apelidoNoPlano+")";
 	}
+	
 	
 	protected int[] movimentarRobo(int coordInicial[], int incrementoEmX, int incrementoEmY) {
 		int coordFinal[] = new int[2];
@@ -56,17 +59,21 @@ public abstract class RobosAbstract implements RobosInterface{
 		// Caso NAO haja movimento, apenas a coordenada incial eh retornada
 	}
 	
+	
 	protected void atualizarListaDeCoordenadas(int[] coord) {
 		listaDeCoordenadas.add(String.format("["+coord[0]+", "+coord[1]+"], "));
 	}
+	
 	
 	protected ArrayList<String> getListaDeCoordenadas() {
 		return listaDeCoordenadas;
 	}
 	
+	
 	protected void finalizarMovimentos() {
 		plano.roboVisitouCelula(coordRobo);
 	}
+	
 	
 	private void checarAlunoOuBugNaCelula(int coord[]) {
 		if(plano.celulaTemAluno(coord)) {
@@ -80,6 +87,7 @@ public abstract class RobosAbstract implements RobosInterface{
 		}
 	}
 	
+	
 	public String interfaceUsuario(boolean selecMovimento, int qtd) {
 		if(selecMovimento) {
 			return ("O "+this.toString()+" vai avancar "+avancar(qtd)+" casa(s).\n");
@@ -92,6 +100,7 @@ public abstract class RobosAbstract implements RobosInterface{
 		return apelidoNoPlano;
 	}
 	
+	
 	private void atualizarPontuacao(int qtd, boolean ganhou) {
 		if(ganhou)
 			pontuacao+=qtd;
@@ -99,25 +108,31 @@ public abstract class RobosAbstract implements RobosInterface{
 			pontuacao-=qtd;
 	}
 	
+	
 	protected int[] getCoord() {
 		return coordRobo;
 	}
 
+	
 	protected int getPontuacao() {
 		return pontuacao;
 	}
+	
 	
 	protected String stringPontuacao() {
 		return "O Robo "+nome+" ("+apelidoNoPlano+") tem "+pontuacao+" pontos.";
 	}
 
+	
 	protected String getNome() {
 		return nome;
 	}
 	
+	
 	protected int getQtdAlunosColetados() {
 		return qtdAlunosColetados;
 	}
+	
 	
 	protected int getQtdBugsColetados() {
 		return qtdBugsColetados;

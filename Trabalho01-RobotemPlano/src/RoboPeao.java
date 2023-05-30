@@ -4,7 +4,7 @@ public class RoboPeao extends RobosAbstract{
 
 	public RoboPeao(String nome, char apelidoNoPlano, Plano plano, int posXInicial, int posYInicial) {
 		super(nome, apelidoNoPlano, plano, posXInicial, posYInicial);
-		formaDeMovimento = "vertical";
+		formaDeMovimento = "horizontal";
 		qtdMaxDeCasasPorMov = "1";
 	}
 

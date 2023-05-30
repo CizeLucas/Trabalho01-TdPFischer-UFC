@@ -6,6 +6,7 @@ public class Plano {
 	private int tamanho;
 	private ArrayList<Celulas> celulas;
 	private int qtdAlunos;
+	
 	public Plano(int tamanho, int qtdBugs, int qtdAlunos, int[] coordInicialRobos) {
 		this.tamanho = tamanho;
 		int temp=0;
@@ -32,21 +33,21 @@ public class Plano {
 		}
 		
 		//for para ler o ArrayList de numeros aleatorios e atribuir bugs ou alunos as celulas
-//		for(int i=0; i<listaNumAleatorios.size(); i++) {
-//			if(i<qtdBugs) {
-//				celulas.get(listaNumAleatorios.get(i)).addBug();
-//			} else {
-//				celulas.get(listaNumAleatorios.get(i)).addAluno();
-//			}
-//		}
+		for(int i=0; i<listaNumAleatorios.size(); i++) {
+			if(i<qtdBugs) {
+				celulas.get(listaNumAleatorios.get(i)).addBug();
+			} else {
+				celulas.get(listaNumAleatorios.get(i)).addAluno();
+			}
+		}
 		
-		celulas.get(2).addAluno();
-		celulas.get(6).addAluno();
-		celulas.get(8).addBug();
-		celulas.get(11).addBug();
-		celulas.get(16).addAluno();
-		celulas.get(22).addBug();
-		celulas.get(24).addAluno();
+//		celulas.get(2).addAluno();
+//		celulas.get(6).addAluno();
+//		celulas.get(8).addBug();
+//		celulas.get(11).addBug();
+//		celulas.get(16).addAluno();
+//		celulas.get(22).addBug();
+//		celulas.get(24).addAluno();
 		/*
 		------------			Andador: R 2	A 2
 		| * * ! * * |			Peao: R			A 1
@@ -107,14 +108,6 @@ public class Plano {
 		this.encontrarCelula(coordFinal).addRobo(robo);
 		//metodo remove o robo da coordInicial e adiciona-o em coordFinal do movimento
 	}
-
-//	public boolean celulaTemAluno(int coord[]) {
-//		for (Celulas celula : celulas)
-//			if(celula.getCoords()[0] == coord[0] && celula.getCoords()[1] == coord[1]) 
-//				if(celula.temAluno() && !celula.roboVisitou()) 
-//					return true;
-//		return false;
-//	}
 	
 	protected boolean celulaTemAluno(int coord[]) {
 		Celulas celulaTemp = encontrarCelula(coord);
