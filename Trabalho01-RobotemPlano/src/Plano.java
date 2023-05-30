@@ -3,10 +3,9 @@ import java.util.Random;
 
 public class Plano {
 	
-	//private RobosAbstract roboAndador;
 	private int tamanho;
 	private ArrayList<Celulas> celulas;
-	
+	private int qtdAlunos;
 	public Plano(int tamanho, int qtdBugs, int qtdAlunos, int[] coordInicialRobos) {
 		this.tamanho = tamanho;
 		int temp=0;
@@ -40,6 +39,7 @@ public class Plano {
 //				celulas.get(listaNumAleatorios.get(i)).addAluno();
 //			}
 //		}
+		
 		celulas.get(2).addAluno();
 		celulas.get(6).addAluno();
 		celulas.get(8).addBug();
@@ -48,15 +48,24 @@ public class Plano {
 		celulas.get(22).addBug();
 		celulas.get(24).addAluno();
 		/*
-		------------			Andador: R 2
-		| * * ! * * |			Peao: R
-		| * ! * & * |			Torre: A 2
-		| * & r * * |			Bispo: A 1	
-		| * ! * * * |			Cavalo: R 1
-		| * * & * ! |			Rei: A 1
-		------------			Rainha: R 4
+		------------			Andador: R 2	A 2
+		| * * ! * * |			Peao: R			A 1
+		| * ! * & * |			Torre: A 2		R 2
+		| * & r * * |			Bispo: A 1		R 1
+		| * ! * * * |			Cavalo: R 1		A 1
+		| * * & * ! |			Rei: A 1		R 1
+		------------			Rainha: R 4		A 2
 		*/
 		
+		//O codigo abaixo conta quantas celulas tem alunos 
+		//	(para evitar qualquer bug com o sistema de sorteio aleatorio de numeros)
+		this.qtdAlunos=0;
+		for (Celulas celula : this.celulas) {
+			if(celula.temAluno()) {
+				this.qtdAlunos++;
+			}
+		}
+		System.out.println("qtdAlunos = "+qtdAlunos);
 	} // fim construtor
 	
 	private Celulas encontrarCelula(int[] coord) {
@@ -122,12 +131,12 @@ public class Plano {
 	}
 	
 	protected boolean checarSeJogoAcabou() {
-		boolean jogoAcabou = true;
+		int contador=0;
 		for (Celulas celula : this.celulas)
-			if(celula.roboVisitou() &&  (celula.temAluno() || celula.temBug())) 
-				jogoAcabou = false;
+			if(celula.roboVisitou() &&  celula.temAluno())
+				contador++;
 		
-		return jogoAcabou;
+		return (contador>=qtdAlunos);
 	}
 	
 	protected void roboVisitouCelula(int coord[]) {
@@ -139,23 +148,23 @@ public class Plano {
 		for(int i=1; i<=(int)tamanho*2.4; i++) 
 			System.out.print("-");
 		System.out.println();
+		
 		for(int i=1; i<=tamanho*tamanho; i++) {
 			celulaTemp = celulas.get(i-1);
 			
 			if((i-1)%tamanho==0)
 				System.out.print("| ");
-			
+	
 			if(celulaTemp.temRobo()) {
 				System.out.print(celulaTemp.getRobo().getApelidoNoPlano()+" ");
 			} else {
 				System.out.print(celulaTemp.imprimir()+" ");
 			}
-			
+
 			if(i%tamanho==0) {
 				System.out.println("|");
 				
-			}
-				
+			}	
 		}
 		for(int i=1; i<=(int)tamanho*2.4; i++) 
 			System.out.print("-");

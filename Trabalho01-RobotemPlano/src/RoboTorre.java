@@ -4,7 +4,7 @@ public class RoboTorre extends RobosAbstract{
 
 	public RoboTorre(String nome, char apelidoNoPlano, Plano plano, int posXInicial, int posYInicial) {
 		super(nome, apelidoNoPlano, plano, posXInicial, posYInicial);
-		formaDeMovimento = "verticalmente";
+		formaDeMovimento = "vertical";
 		qtdMaxDeCasasPorMov="2";
 	}
 

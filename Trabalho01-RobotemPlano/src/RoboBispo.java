@@ -12,6 +12,7 @@ public class RoboBispo extends RobosAbstract{
 			qtd=Integer.parseInt(qtdMaxDeCasasPorMov);
 		
 		int coordTemp[] = this.movimentarRobo(coordRobo, (-1)*qtd, (-1)*qtd);
+		coordRobo[0] = coordTemp[0];
 		coordRobo[1] = coordTemp[1];
 		
 		return qtd;

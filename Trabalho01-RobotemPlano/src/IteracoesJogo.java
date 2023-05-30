@@ -57,7 +57,7 @@ public class IteracoesJogo {
 		System.out.println("Agora, Vamos iniciar:");
 		System.out.println("\n");
 		
-		while(plano.checarSeJogoAcabou()) {
+		while(!plano.checarSeJogoAcabou()) {
 			for(int i=0; i<17; i++)
 				System.out.print("--");
 			System.out.println("\nRodada Num.: "+contadorDeRodadas);
